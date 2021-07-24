@@ -13,7 +13,7 @@ function Search() {
 
   const apikey = process.env.REACT_APP_OMDB_KEY;
   const baseEndpoint = 'http://www.omdbapi.com/?';
-  const posibleTypes = ['All', 'Movie', 'Series', 'Episode']; 
+  const posibleTypes = ['All Types', 'Movie', 'Series', 'Episode']; 
 
   // parse params oobj to search query
   const parseParams = (params) => {
@@ -60,7 +60,7 @@ function Search() {
   const handleSearchGo = async (input) => {
     if (!input.str) return; 
     const type = input.type;
-    if ( !type || (type && type === "all")) {
+    if ( !type || (type && type === "all types")) {
       return await fetchResults({ s:input.str, page:1, newSearch:true });
     } 
     else await fetchResults({ s:input.str, page:1, type, newSearch:true });

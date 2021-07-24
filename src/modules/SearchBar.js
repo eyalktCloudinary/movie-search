@@ -1,4 +1,5 @@
 import { useState } from "react";
+import searchIcon from '../search.svg';
 
 // Search component that accepts query and type from the end-user
 function SearchBar({ onSearchGo, types }) {
@@ -18,21 +19,26 @@ function SearchBar({ onSearchGo, types }) {
 
   return (
     <div className="search-bar">
-      <input
-        placeholder={"Search a movie, series, or episode"}
-        onChange={(e) => handleStrInput(e.target.value)}
-      />
+      <div className="search-input">
+        <input
+          placeholder={"Search a movie, series, or episode"}
+          onChange={(e) => handleStrInput(e.target.value)}
+        />
+      </div>
       
       { types && 
-        <div className="type-select">
-          <label htmlFor="types">Type</label>
-          <select name="types" id="types" onChange={e => chooseType(e.target.value)}>
+        <div className="search-type-select">
+          <select name="types" onChange={e => chooseType(e.target.value)}>
             { types.map((type, i) => <option value={type} key={i}>{type}</option>) }
           </select>
         </div>
       }
 
-      <button onClick={(e) => onSearchGo(input)}>Go</button>
+      <div className="search-btn">
+        <button onClick={(e) => onSearchGo(input)}>
+          <img src={searchIcon} alt='Search button' />
+        </button>
+      </div>
     </div>
   );
 }
