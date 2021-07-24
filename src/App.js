@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import Search from './modules/Search';
 
 function App() {
@@ -19,7 +19,7 @@ export default App;
 [v] load more results
 [v] add ?y and ?type to search
 [v] publish to GH
-[ ] design interface (keep an eye for responsivness)
+[v] design interface (keep an eye for responsivness)
 [ ] more info module for clicked movies
 [ ] sharing options for titles = fb wa
 [ ] change results layout

@@ -18,9 +18,13 @@ function Result({ movie, cld }) {
   return (
     <div className="result">
       {/* <img src={movie.Poster} alt={movie.Title + " poster"}></img> */}
-      <AdvancedImage cldImg={posterImg} alt={movie.Title + " poster"} />
-      <h1>{movie.Title}</h1>
-      <h2>{movie.Year}</h2>
+      <div className="result-img">
+       <AdvancedImage cldImg={posterImg} alt={movie.Title + " poster"} />
+      </div>
+      <div className="result-details">
+        <h3>{movie.Title}</h3>
+        <span>{movie.Year}</span>
+      </div>
     </div>
   );
 }
