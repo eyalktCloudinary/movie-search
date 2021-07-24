@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import Search from './modules/Search';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search />
     </div>
   );
 }
 
 export default App;
+
+/* TODO 
+[v] connect with server
+[v] bulid ?s functional search bar
+[v] display results
+[v] use CLD
+[v] load more results
+[v] add ?y and ?type to search
+[v] publish to GH
+[ ] design interface (keep an eye for responsivness)
+[ ] more info module for clicked movies
+[ ] sharing options for titles = fb wa
+[ ] change results layout
+[ ] loader / skeleton
+[ ] I'm feeling lucky
+*/
