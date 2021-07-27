@@ -20,6 +20,10 @@
 
 .search-input {
     width: 70%;
+
+    display: flex;
+    justify-content: space-between;
+
 }
 
 .search-input input {
@@ -29,7 +33,7 @@
     color: black;
 
     margin: 0 30px;
-    width: 100%;
+    width: 75%;
 }
 
 .search-type-select select {
@@ -54,6 +58,24 @@
 }
 
 .search-btn button img {
+    width: 24px;
+    height: 24px;
+}
+
+.search-reset {
+    border: none;
+    outline: none;
+    
+    background-color: #e3e3e3;
+    border-radius: 24px;
+}
+
+.search-reset:hover {
+    background-color: #d5d5d5;
+    cursor: pointer;
+}
+
+.search-reset img {
     width: 24px;
     height: 24px;
 }

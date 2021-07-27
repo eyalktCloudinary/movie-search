@@ -26,7 +26,7 @@ function Search() {
   }
 
   // get results from BE
-  const fetchResults = async (params) => {
+  const fetchResults = async (params, newSearch) => {
     const query = parseParams(params);
     const endpoint = baseEndpoint + query;
     
@@ -42,7 +42,7 @@ function Search() {
           setResults([]);
           throw Error(data.Error);
         }
-        if (params.newSearch) setResults([ data ]);
+        if (newSearch) setResults([ data ]);
         else setResults([...results, data]);
         setCurrParams(params);
         setPage(params.page);
@@ -53,17 +53,18 @@ function Search() {
   } 
 
   const handleLoadMore = async () => {
-    const newParams = { ...currParams, page: page+1, newSearch:false };
-    return await fetchResults(newParams);
+    const newParams = { ...currParams, page: page+1 };
+    return await fetchResults(newParams, false);
   }
 
   const handleSearchGo = async (input) => {
     if (!input.str) return; 
-    const type = input.type;
+    const type = input.type.toLowerCase();
+    const s = input.str;
     if ( !type || (type && type === "all types")) {
-      return await fetchResults({ s:input.str, page:1, newSearch:true });
+      return await fetchResults({ s, page:1 }, true);
     } 
-    else await fetchResults({ s:input.str, page:1, type, newSearch:true });
+    else await fetchResults({ s, page:1, type }, true);
   }
 
   return (
