@@ -20,10 +20,12 @@ export default App;
 [v] add ?y and ?type to search
 [v] publish to GH
 [v] design interface (keep an eye for responsivness)
+[ ] focus states
+[ ] jump up
+[ ] background for pre-search
 [ ] more info module for clicked movies
 [ ] sharing options for titles = fb wa
 [ ] change results layout
 [ ] loader / skeleton
 [ ] I'm feeling lucky
-[ ] background for pre-search
 */
