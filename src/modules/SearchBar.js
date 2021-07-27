@@ -3,6 +3,8 @@ import searchIcon from '../search.svg';
 import searchResetIcon from '../search-reset.svg';
 
 // Search component that accepts query and type from the end-user
+// Initiated with a search function 'onSearchGo' and array of 'types'.
+// types[0] is default type
 function SearchBar({ onSearchGo, types }) {
 
   const inputElem = useRef(null);
