@@ -25,4 +25,5 @@ export default App;
 [ ] change results layout
 [ ] loader / skeleton
 [ ] I'm feeling lucky
+[ ] background for pre-search
 */

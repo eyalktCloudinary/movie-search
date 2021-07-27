@@ -30,14 +30,14 @@ function Search() {
     const query = parseParams(params);
     const endpoint = baseEndpoint + query;
     
-    console.log("fetching", params, query);
+    console.log('fetching', params, query);
     return await fetch(endpoint)
       .then(response => {
         if (!response.ok) throw Error('Server returned error');
         return response.json();
       })
       .then(data => {
-        console.log("data", data);
+        console.log('data', data);
         if (data.Error) {
           setResults([]);
           throw Error(data.Error);
@@ -46,7 +46,7 @@ function Search() {
         else setResults([...results, data]);
         setCurrParams(params);
         setPage(params.page);
-        console.log("results", results);
+        console.log('results', results);
         return data;
       })
       .catch(err => console.log(err));
@@ -61,7 +61,7 @@ function Search() {
     if (!input.str) return; 
     const type = input.type.toLowerCase();
     const s = input.str;
-    if ( !type || (type && type === "all types")) {
+    if ( !type || (type && type === 'all types')) {
       return await fetchResults({ s, page:1 }, true);
     } 
     else await fetchResults({ s, page:1, type }, true);

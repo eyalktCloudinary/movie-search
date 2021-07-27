@@ -1,5 +1,5 @@
 import Result from './Result'
-import { Cloudinary } from "@cloudinary/base";
+import { Cloudinary } from '@cloudinary/base';
 
 const cld = new Cloudinary({
   cloud: {
