@@ -14,6 +14,7 @@ function Search() {
   const apikey = process.env.REACT_APP_OMDB_KEY;
   const baseEndpoint = 'http://www.omdbapi.com/?';
   const posibleTypes = ['All Types', 'Movie', 'Series', 'Episode']; 
+  const maxResultsInPage = 10;
 
   // parse params oobj to search query
   const parseParams = (params) => {
@@ -70,7 +71,15 @@ function Search() {
   return (
     <div className="search">
       <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} />
-      <SearchResults results={results} onLoadMore={handleLoadMore} />
+      { results.length > 0 &&
+        <SearchResults 
+          results={results} 
+          onLoadMore={handleLoadMore} 
+          page={page} 
+          amountOfResults={results[0].totalResults}
+          maxResultsInPage={maxResultsInPage}
+          />
+      }
     </div>
   );
 }
