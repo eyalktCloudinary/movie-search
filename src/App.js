@@ -23,6 +23,7 @@ export default App;
 [ ] focus states
 [ ] jump up
 [ ] background for pre-search
+[ ] compare searching for <query> and '<query>'
 [ ] more info module for clicked movies
 [ ] sharing options for titles = fb wa
 [ ] change results layout

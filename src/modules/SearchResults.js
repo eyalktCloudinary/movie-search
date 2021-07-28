@@ -7,12 +7,15 @@ const cld = new Cloudinary({
   }
 });
 
-function SearchResults({ results,  onLoadMore, page, amountOfResults }) { 
+function SearchResults({ results,  onLoadMore, page, amountOfResults, searchQuery }) { 
 
   const shouldShowMore = amountOfResults > 10 * page; // not a state since not dynamic (once SearchResults is rendered)
 
   return (
     <div className="search-results-pane">
+      <h2 className="results-headline">
+        Found {amountOfResults} results for "{searchQuery}"
+      </h2>
       <div className="search-results">
         {
           results.map( page => page.Search.map( res => (

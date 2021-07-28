@@ -105,15 +105,24 @@
 }
 
 /* Search results*/
-.search-results {
+.search-results-pane {
+    display: flex;
+    flex-direction: column;
     width: 90vw;
     margin: auto;
+}
+
+.search-results {
     border-radius: 8px;
     padding: 10px;
     
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.results-headline {
+    margin: 0 0 10px 0;;
 }
 
 .result {

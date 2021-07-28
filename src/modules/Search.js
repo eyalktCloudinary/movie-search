@@ -78,6 +78,7 @@ function Search() {
           page={page} 
           amountOfResults={results[0].totalResults}
           maxResultsInPage={maxResultsInPage}
+          searchQuery={currParams.s}
           />
       }
     </div>
