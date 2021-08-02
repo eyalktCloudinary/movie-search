@@ -20,6 +20,7 @@ export default App;
 [v] add ?y and ?type to search
 [v] publish to GH
 [v] design interface (keep an eye for responsivness)
+[ ] handle no results
 [ ] focus states
 [ ] jump up
 [ ] background for pre-search
