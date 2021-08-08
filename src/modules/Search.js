@@ -10,6 +10,7 @@ function Search() {
   const [currParams, setCurrParams] = useState({});
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
+  const [errors, setErrors] = useState([]);
 
   const apikey = process.env.REACT_APP_OMDB_KEY;
   const baseEndpoint = 'http://www.omdbapi.com/?';
@@ -41,7 +42,7 @@ function Search() {
         console.log('data', data);
         if (data.Error) {
           setResults([]);
-          throw Error(data.Error);
+          handleSearchErrors(data, params);
         }
         if (newSearch) setResults([ data ]);
         else setResults([...results, data]);
@@ -60,6 +61,7 @@ function Search() {
 
   const handleSearchGo = async (input) => {
     if (!input.str) return; 
+    setErrors([]);
     const type = input.type.toLowerCase();
     const s = input.str;
     if ( !type || (type && type === 'all types')) {
@@ -68,18 +70,37 @@ function Search() {
     else await fetchResults({ s, page:1, type }, true);
   }
 
+  const handleSearchErrors = (data, params) => {
+    let msg;
+    switch (data.Error) {
+      case 'Movie not found!':
+        msg = 'Could not find any results for "' + params.s + '".';
+        setErrors([...errors, { msg }]);
+        break;
+    
+      default:
+        msg = 'We are having some issues :/\n Please try again later.'
+        setErrors([...errors, { msg }]);
+        break;
+    }
+    throw Error(data.Error);
+  }
+
   return (
     <div className="search">
       <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} />
-      { results.length > 0 &&
-        <SearchResults 
-          results={results} 
-          onLoadMore={handleLoadMore} 
-          page={page} 
-          amountOfResults={results[0].totalResults}
-          maxResultsInPage={maxResultsInPage}
-          searchQuery={currParams.s}
-          />
+      { 
+        errors.length === 0 ?
+          results.length > 0 && 
+            <SearchResults 
+              results={results} 
+              onLoadMore={handleLoadMore} 
+              page={page} 
+              amountOfResults={results[0].totalResults}
+              maxResultsInPage={maxResultsInPage}
+              searchQuery={currParams.s}
+              /> :
+          <div className="search-error">{ errors[errors.length-1].msg }</div>
       }
     </div>
   );
