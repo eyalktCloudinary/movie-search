@@ -5,7 +5,7 @@ import searchResetIcon from '../search-reset.svg';
 // Search component that accepts query and type from the end-user
 // Initiated with a search function 'onSearchGo' and array of 'types'.
 // types[0] is default type
-function SearchBar({ onSearchGo, types }) {
+function SearchBar({ onSearchGo, types, resetErrors }) {
 
   const inputElem = useRef(null);
   const [str, setStr] = useState('');
@@ -26,14 +26,14 @@ function SearchBar({ onSearchGo, types }) {
   }
 
   const resetInput = () => {
-    console.log('reset');
+    resetErrors();
     setStr('');
     setType(types[0]); 
     inputElem.current.focus(); // get focus back to input
   }
 
   return (
-    <div className="search-bar" onKeyPress={e => handleEnter(e.key)}>
+    <div className="search-bar" onKeyPress={e => handleEnter(e.key)} onChange={resetErrors}>
       <div className="search-input">
         <input
           type="text" 
@@ -51,10 +51,13 @@ function SearchBar({ onSearchGo, types }) {
       
       { types && 
         <div className="search-type-select">
-          <select name="types" 
-                  value={type} 
-                  onChange={e => chooseType(e.target.value)}>
-            { types.map((type, i) => <option value={type} key={i}>{type}</option>) }
+          <select 
+            name="types" 
+            value={type} 
+            onChange={e => chooseType(e.target.value)}>
+          {
+            types.map((type, i) => <option value={type} key={i}>{type}</option>) 
+          }
           </select>
         </div>
       }

@@ -61,7 +61,7 @@ function Search() {
 
   const handleSearchGo = async (input) => {
     if (!input.str) return; 
-    setErrors([]);
+    resetErrors();
     const type = input.type.toLowerCase();
     const s = input.str;
     if ( !type || (type && type === 'all types')) {
@@ -86,9 +86,13 @@ function Search() {
     throw Error(data.Error);
   }
 
+  const resetErrors = () => {
+    setErrors([]);
+  }
+
   return (
     <div className="search">
-      <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} />
+      <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} resetErrors={resetErrors} />
       { 
         errors.length === 0 ?
           results.length > 0 && 
