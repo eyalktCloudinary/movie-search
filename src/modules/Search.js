@@ -74,7 +74,7 @@ function Search() {
     let msg;
     switch (data.Error) {
       case 'Movie not found!':
-        msg = 'Could not find any results for "' + params.s + '".';
+        msg = 'Could not find any results for "' + params.s + '"';
         setErrors([...errors, { msg }]);
         break;
     
@@ -100,7 +100,9 @@ function Search() {
               maxResultsInPage={maxResultsInPage}
               searchQuery={currParams.s}
               /> :
-          <div className="search-error">{ errors[errors.length-1].msg }</div>
+          <div className="search-error">
+            <h2>{ errors[errors.length-1].msg }</h2>
+          </div>
       }
     </div>
   );
