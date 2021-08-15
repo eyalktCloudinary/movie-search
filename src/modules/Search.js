@@ -100,7 +100,7 @@ function Search() {
               results={results} 
               onLoadMore={handleLoadMore} 
               page={page} 
-              amountOfResults={ (results[0] && results[0].totalResults) || 0 }
+              amountOfResults={ results[0].totalResults }
               maxResultsInPage={maxResultsInPage}
               searchQuery={currParams.s}
               /> :
