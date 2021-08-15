@@ -33,7 +33,7 @@ function Search() {
     const endpoint = baseEndpoint + query;
     
     console.log('fetching', params, query);
-    return await fetch(endpoint)
+    return fetch(endpoint)
       .then(response => {
         if (!response.ok) throw Error('Server returned error');
         return response.json();
@@ -56,7 +56,7 @@ function Search() {
 
   const handleLoadMore = async () => {
     const newParams = { ...currParams, page: page+1 };
-    return await fetchResults(newParams, false);
+    return fetchResults(newParams, false); 
   }
 
   const handleSearchGo = async (input) => {
@@ -65,9 +65,9 @@ function Search() {
     const type = input.type.toLowerCase();
     const s = input.str;
     if ( !type || (type && type === 'all types')) {
-      return await fetchResults({ s, page:1 }, true);
+      return fetchResults({ s, page:1 }, true);
     } 
-    else await fetchResults({ s, page:1, type }, true);
+    else return fetchResults({ s, page:1, type }, true);
   }
 
   const handleSearchErrors = (data, params) => {
@@ -100,7 +100,7 @@ function Search() {
               results={results} 
               onLoadMore={handleLoadMore} 
               page={page} 
-              amountOfResults={results[0].totalResults}
+              amountOfResults={ (results[0] && results[0].totalResults) || 0 }
               maxResultsInPage={maxResultsInPage}
               searchQuery={currParams.s}
               /> :
