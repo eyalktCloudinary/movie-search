@@ -20,9 +20,9 @@ function Search() {
   const [error, setError] = useState(null);
   // const [endpoint, setEndpoint] = useState(null);
 
+  // consider using endpoint state & update params only when results are ready.
+  // consider providing cb param
   const { data: newResults, error: fetchError } = useFetch(generateEndpoint(params));
-    // consider using endpoint state & update params only when results are ready.
-    // consider providing cb param
 
   // update results
   useEffect(() => {

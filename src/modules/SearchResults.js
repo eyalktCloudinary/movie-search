@@ -1,11 +1,4 @@
 import Result from './Result'
-import { Cloudinary } from '@cloudinary/base';
-
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: process.env.REACT_APP_CLD_CLOUD
-  }
-});
 
 function SearchResults({ results,  onLoadMore, amountOfResults, searchQuery }) { 
 
@@ -19,7 +12,7 @@ function SearchResults({ results,  onLoadMore, amountOfResults, searchQuery }) {
       <div className="search-results">
         {
           results.map( res => (
-            <Result movie={res} key={res.imdbID} cld={cld}/>
+            <Result movie={res} key={res.imdbID}/>
           ))
         }
       </div>

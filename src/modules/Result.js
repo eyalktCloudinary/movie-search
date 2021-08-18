@@ -2,9 +2,12 @@ import {AdvancedImage} from '@cloudinary/react';
 import {format, quality} from '@cloudinary/base/actions/delivery';
 import {auto} from '@cloudinary/base/qualifiers/format';
 import {auto as qAuto} from '@cloudinary/base/qualifiers/quality';
+import useCloudinary from '../hooks/useCloudinary';
 
 // represents a single result
-function Result({ movie, cld }) {
+function Result({ movie }) {
+
+  const { cld } = useCloudinary();
 
   const posterImg = cld.image(movie.Poster)
     .delivery(format(auto()))
