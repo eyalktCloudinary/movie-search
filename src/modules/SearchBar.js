@@ -5,7 +5,7 @@ import searchResetIcon from '../search-reset.svg';
 // Search component that accepts query and type from the end-user
 // Initiated with a search function 'onSearchGo' and array of 'types'.
 // types[0] is default type
-function SearchBar({ onSearchGo, types, resetErrors }) {
+function SearchBar({ onSearchGo, types, resetError }) {
 
   const inputElem = useRef(null);
   const [str, setStr] = useState('');
@@ -26,14 +26,13 @@ function SearchBar({ onSearchGo, types, resetErrors }) {
   }
 
   const resetInput = () => {
-    resetErrors();
     setStr('');
     setType(types[0]); 
     inputElem.current.focus(); // get focus back to input
   }
 
   return (
-    <div className="search-bar" onKeyPress={e => handleEnter(e.key)} onChange={resetErrors}>
+    <div className="search-bar" onKeyPress={e => handleEnter(e.key)} onChange={() => resetError()} >
       <div className="search-input">
         <input
           type="text" 

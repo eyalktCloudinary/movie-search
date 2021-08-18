@@ -1,112 +1,127 @@
 import '../styles/Search.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
+import useFetch from '../hooks/useFetch';
 
 // import sampleResults from './db';
 
+const apikey = process.env.REACT_APP_OMDB_KEY;
+const baseEndpoint = 'http://www.omdbapi.com/?';
+const posibleTypes = ['All Types', 'Movie', 'Series', 'Episode'];
+const maxResultsInPage = 10;
+
+// parse params oobj to search query
+const parseParams = (params) => {
+  if (!params) return null;
+  let queryArr = [];
+  for (let p in params) {
+    queryArr.push(p + '=' + params[p])
+  }
+  queryArr.push('apikey=' + apikey)
+  return queryArr.join('&');
+}
+
+const generateEndpoint = (params) => {
+  if (!params) return null;
+  return baseEndpoint + parseParams(params);
+}
+
+const paramsFromEndpoint = (endpoint) => {
+  console.log("parsing endpoint", endpoint);
+  if (!endpoint) return null;
+  const params = {};
+  endpoint.split('?')[1]
+    .split('&').forEach(p => {
+      const [key, value] = p.split('=');
+      if (key !== 'apikey') params[key] = value;
+    });
+  return params;
+}
+
 function Search() {
 
-  const [currParams, setCurrParams] = useState({});
-  const [results, setResults] = useState([]);
-  const [page, setPage] = useState(1);
-  const [errors, setErrors] = useState([]);
+  const [params, setParams] = useState(null);
+  const [results, setResults] = useState(null); // { totalResults[], results }
+  const [error, setError] = useState(null);
+  // const [endpoint, setEndpoint] = useState(null);
 
-  const apikey = process.env.REACT_APP_OMDB_KEY;
-  const baseEndpoint = 'http://www.omdbapi.com/?';
-  const posibleTypes = ['All Types', 'Movie', 'Series', 'Episode']; 
-  const maxResultsInPage = 10;
+  const { data: newResults, error: fetchError } = useFetch(generateEndpoint(params));
+  // consider using endpoint state & update params only when results are ready.
+  // consider providing cb param
 
-  // parse params oobj to search query
-  const parseParams = (params) => {
-    let queryArr = [];
-    for (let p in params) {
-      queryArr.push(p + '=' + params[p])
+  // update results
+  useEffect(() => {
+    if (newResults) {
+      console.log("newResults", newResults);
+      setResults(curResults => curResults ?
+        { totalResults: newResults.totalResults, results: [...curResults.results, ...newResults.Search] } :
+        { totalResults: newResults.totalResults, results: newResults.Search });
     }
-    queryArr.push('apikey=' + apikey)
-    return queryArr.join('&');
-  }
+  }, [newResults]);
 
-  // get results from BE
-  const fetchResults = async (params, newSearch) => {
-    const query = parseParams(params);
-    const endpoint = baseEndpoint + query;
-    
-    console.log('fetching', params, query);
-    return fetch(endpoint)
-      .then(response => {
-        if (!response.ok) throw Error('Server returned error');
-        return response.json();
-      })
-      .then(data => {
-        console.log('data', data);
-        if (data.Error) {
-          setResults([]);
-          handleSearchErrors(data, params);
-        }
-        if (newSearch) setResults([ data ]);
-        else setResults([...results, data]);
-        setCurrParams(params);
-        setPage(params.page);
-        console.log('results', results);
-        return data;
-      })
-      .catch(err => console.log(err));
-  } 
+  // handle errors
+  useEffect(() => {
+    if (fetchError) {
+      console.log("error", fetchError);
+      switch (fetchError) {
+        case 'Movie not found!':
+          // const query = fetchError.endpoint.split('?')[1].split('&').filter(str => str.startsWith('s='))[0].split('=')[1];
+          // setError('Could not find any results for "' + query + '"');
+          setError(fetchError);
+          break;
+
+        default:
+          setError('We are having some issues :/\n Please try again later.');
+          break;
+      }
+    }
+    else setError(null);
+  }, [fetchError]);
 
   const handleLoadMore = async () => {
-    const newParams = { ...currParams, page: page+1 };
-    return fetchResults(newParams, false); 
+    const newParams = { ...params, page: parseInt(params.page, 10) + 1 };
+    // setEndpoint(generateEndpoint(newParams));
+    setParams(newParams);
   }
 
   const handleSearchGo = async (input) => {
-    if (!input.str) return; 
-    resetErrors();
+    if (!input.str) return;
+    setError(null);
     const type = input.type.toLowerCase();
     const s = input.str;
-    if ( !type || (type && type === 'all types')) {
-      return fetchResults({ s, page:1 }, true);
-    } 
-    else return fetchResults({ s, page:1, type }, true);
-  }
-
-  const handleSearchErrors = (data, params) => {
-    let msg;
-    switch (data.Error) {
-      case 'Movie not found!':
-        msg = 'Could not find any results for "' + params.s + '"';
-        setErrors([...errors, { msg }]);
-        break;
-    
-      default:
-        msg = 'We are having some issues :/\n Please try again later.'
-        setErrors([...errors, { msg }]);
-        break;
+    let newParams;
+    if (!type || (type && type === 'all types')) {
+      newParams = { s, page: 1 };
     }
-    throw Error(data.Error);
-  }
-
-  const resetErrors = () => {
-    setErrors([]);
+    else {
+      newParams = { s, page: 1, type };
+    }
+    // setEndpoint(generateEndpoint(newParams));
+    if (params && (params.s === newParams.s && params.page === newParams.page && params.type === newParams.type)) return;
+    setResults(null);
+    setParams(newParams);
+    console.log("go");
   }
 
   return (
     <div className="search">
-      <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} resetErrors={resetErrors} />
-      { 
-        errors.length === 0 ?
-          results.length > 0 && 
-            <SearchResults 
-              results={results} 
-              onLoadMore={handleLoadMore} 
-              page={page} 
-              amountOfResults={ results[0].totalResults }
-              maxResultsInPage={maxResultsInPage}
-              searchQuery={currParams.s}
-              /> :
-          <div className="search-error">
-            <h2>{ errors[errors.length-1].msg }</h2>
-          </div>
+      <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} resetError={() => setError(null)} />
+      {
+        results && params && !error &&
+        <SearchResults
+          results={results.results}
+          onLoadMore={handleLoadMore}
+          amountOfResults={results.totalResults}
+          maxResultsInPage={maxResultsInPage}
+          searchQuery={params.s}
+        /> 
+      }
+      {
+        error && 
+        <div className="search-error">
+          <h2>{error}</h2>
+        </div>
       }
     </div>
   );

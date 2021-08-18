@@ -7,9 +7,9 @@ const cld = new Cloudinary({
   }
 });
 
-function SearchResults({ results,  onLoadMore, page, amountOfResults, searchQuery }) { 
+function SearchResults({ results,  onLoadMore, amountOfResults, searchQuery }) { 
 
-  const shouldShowMore = amountOfResults > 10 * page; // not a state since not dynamic (once SearchResults is rendered)
+  const shouldShowMore = results.length < amountOfResults; // not a state since not dynamic (once SearchResults is rendered)
 
   return (
     <div className="search-results-pane">
@@ -18,9 +18,9 @@ function SearchResults({ results,  onLoadMore, page, amountOfResults, searchQuer
       </h2>
       <div className="search-results">
         {
-          results.map( page => page.Search.map( res => (
+          results.map( res => (
             <Result movie={res} key={res.imdbID} cld={cld}/>
-          )))
+          ))
         }
       </div>
       { shouldShowMore && <button className="load-more" onClick={onLoadMore}>Load More</button> }
