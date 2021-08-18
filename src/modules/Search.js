@@ -6,38 +6,12 @@ import useFetch from '../hooks/useFetch';
 
 // import sampleResults from './db';
 
-const apikey = process.env.REACT_APP_OMDB_KEY;
-const baseEndpoint = 'http://www.omdbapi.com/?';
-const posibleTypes = ['All Types', 'Movie', 'Series', 'Episode'];
-const maxResultsInPage = 10;
+import * as utils from '../utils';
+import * as apiData from '../apiData';
 
-// parse params oobj to search query
-const parseParams = (params) => {
-  if (!params) return null;
-  let queryArr = [];
-  for (let p in params) {
-    queryArr.push(p + '=' + params[p])
-  }
-  queryArr.push('apikey=' + apikey)
-  return queryArr.join('&');
-}
-
-const generateEndpoint = (params) => {
-  if (!params) return null;
-  return baseEndpoint + parseParams(params);
-}
-
-const paramsFromEndpoint = (endpoint) => {
-  console.log("parsing endpoint", endpoint);
-  if (!endpoint) return null;
-  const params = {};
-  endpoint.split('?')[1]
-    .split('&').forEach(p => {
-      const [key, value] = p.split('=');
-      if (key !== 'apikey') params[key] = value;
-    });
-  return params;
-}
+const generateEndpoint = utils.generateEndpoint;
+const posibleTypes = apiData.default().posibleTypes;
+const maxResultsInPage = apiData.default().maxResultsInPage;
 
 function Search() {
 
@@ -47,8 +21,8 @@ function Search() {
   // const [endpoint, setEndpoint] = useState(null);
 
   const { data: newResults, error: fetchError } = useFetch(generateEndpoint(params));
-  // consider using endpoint state & update params only when results are ready.
-  // consider providing cb param
+    // consider using endpoint state & update params only when results are ready.
+    // consider providing cb param
 
   // update results
   useEffect(() => {
@@ -66,7 +40,6 @@ function Search() {
       console.log("error", fetchError);
       switch (fetchError) {
         case 'Movie not found!':
-          // const query = fetchError.endpoint.split('?')[1].split('&').filter(str => str.startsWith('s='))[0].split('=')[1];
           // setError('Could not find any results for "' + query + '"');
           setError(fetchError);
           break;
