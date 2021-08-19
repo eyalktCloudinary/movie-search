@@ -2,9 +2,11 @@ import { AdvancedImage } from '@cloudinary/react';
 import { format, quality } from '@cloudinary/base/actions/delivery';
 import { auto } from '@cloudinary/base/qualifiers/format';
 import { auto as qAuto } from '@cloudinary/base/qualifiers/quality';
-import useCloudinary from '../hooks/useCloudinary';
+import { trim } from '@cloudinary/base/actions/reshape';
 
-import posterPlaceHolder from '../search.svg';
+
+import useCloudinary from '../hooks/useCloudinary';
+import posterPlaceHolder from '../poster-placeholder.svg';
 
 // represents a single result
 function Result({ movie }) {
@@ -15,6 +17,7 @@ function Result({ movie }) {
     cld.image(movie.Poster)
       .delivery(format(auto()))
       .delivery(quality(qAuto()))
+      .effect(trim(10, 'white'))
       .setStorageType('fetch');
 
   return (
