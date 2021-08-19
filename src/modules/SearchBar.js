@@ -5,7 +5,7 @@ import searchResetIcon from '../search-reset.svg';
 // Search component that accepts query and type from the end-user
 // Initiated with a search function 'onSearchGo' and array of 'types'.
 // types[0] is default type
-function SearchBar({ onSearchGo, types, resetError }) {
+function SearchBar({ onSearchGo, types, resetError, searchPlaceholder }) {
 
   const inputElem = useRef(null);
   const [str, setStr] = useState('');
@@ -38,7 +38,7 @@ function SearchBar({ onSearchGo, types, resetError }) {
           type="text" 
           value={str}
           ref={inputElem}
-          placeholder={"Search a movie, series, or episode"}
+          placeholder={searchPlaceholder}
           onChange={e => handleStrInput(e.target.value)}
         />
         { str && 

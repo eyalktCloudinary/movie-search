@@ -79,7 +79,12 @@ function Search() {
 
   return (
     <div className="search">
-      <SearchBar onSearchGo={handleSearchGo} types={posibleTypes} resetError={() => setError(null)} />
+      <SearchBar 
+        onSearchGo={handleSearchGo} 
+        types={posibleTypes} 
+        resetError={() => setError(null)} 
+        searchPlaceholder={'Search a movie, series, or episode'}
+      />
       {
         results && params && !error &&
         <SearchResults
