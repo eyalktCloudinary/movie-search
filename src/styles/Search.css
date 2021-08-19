@@ -166,15 +166,16 @@
     margin: 0;
 }
 
-.result span {
-    font-size: 14px;
-    margin-left: 12px;
-}
-
 .result-details {
     display: flex;
     justify-content: space-between;
     padding: 10px;
+}
+
+.result-details span {
+    font-size: 14px;
+    margin-left: 12px;
+    line-height: 25px;
 }
 
 .result-img {
