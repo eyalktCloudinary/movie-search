@@ -87,7 +87,7 @@ function Search() {
           onLoadMore={handleLoadMore}
           amountOfResults={results.totalResults}
           maxResultsInPage={maxResultsInPage}
-          searchQuery={params.s}
+          searchQuery={params}
         /> 
       }
       {

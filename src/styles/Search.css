@@ -139,6 +139,14 @@
 
 .results-headline {
     margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.results-headline h2 span {
+    margin: 0 12px;
+    color: gray;
+    font-size: 0.9em;
 }
 
 .result {
