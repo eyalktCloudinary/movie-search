@@ -52,13 +52,13 @@ function Search() {
     else setError(null);
   }, [fetchError]);
 
-  const handleLoadMore = async () => {
+  const handleLoadMore = () => {
     const newParams = { ...params, page: parseInt(params.page, 10) + 1 };
     // setEndpoint(generateEndpoint(newParams));
     setParams(newParams);
   }
 
-  const handleSearchGo = async (input) => {
+  const handleSearchGo = (input) => {
     if (!input.str) return;
     setError(null);
     const type = input.type.toLowerCase();
