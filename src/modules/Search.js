@@ -16,7 +16,7 @@ const maxResultsInPage = apiData.default().maxResultsInPage;
 function Search() {
 
   const [params, setParams] = useState(null);
-  const [results, setResults] = useState(null); // { totalResults[], results }
+  const [results, setResults] = useState(null); // structure { totalResults[], results }
   const [error, setError] = useState(null);
   // const [endpoint, setEndpoint] = useState(null);
 

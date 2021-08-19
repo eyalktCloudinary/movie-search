@@ -1,5 +1,6 @@
 import Result from './Result'
 
+// represents all results section
 function SearchResults({ results,  onLoadMore, amountOfResults, searchQuery }) { 
 
   const shouldShowMore = results.length < amountOfResults; // not a state since not dynamic (once SearchResults is rendered)
